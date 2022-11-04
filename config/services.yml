@@ -1,0 +1,28 @@
+services:
+  _defaults:
+    autowire: true
+    autoconfigure: true
+
+  App\:
+    resource: '../src/'
+
+  _instanceof:
+    Symfony\Component\Console\Command\Command:
+      tags: ['command']
+    App\Scraper\Snippets\AbstractSnippet:
+      tags: ['snippet']
+
+  App\Application:
+    public: true
+    arguments:
+      - !tagged command
+
+  App\Scraper\OptionScraper:
+    public: true
+    arguments:
+      - !tagged snippet
+
+  App\Scraper\Scraper:
+    arguments:
+      $crawler: '@App\Crawler\TestCrawler'
+      $optionScraper: '@App\Scraper\OptionScraper'
