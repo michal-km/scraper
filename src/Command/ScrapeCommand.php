@@ -68,18 +68,26 @@ class ScrapeCommand extends Command
         } finally {
             $this->logger->info('Scraping session ended.');
         }
+
         return $returnCode;
     }
 
     /**
      * @param ?string $url An URL of website to scrap from.
+     *
+     * @return string JSON with the scraping results.
      */
-    private function getJson(?string $url)
+    private function getJson(?string $url) : string
     {
+        if (empty($url)) {
+            $url = "https://wltest.dns-systems.net/";
+        }
+        $this->logger->info(sprintf("Connecting to %s.", $url));
         $options = $this->scraper->scrape($url);
         if (empty($options)) {
             $this->logger->warning('No data scraped.');
         }
+
         return json_encode($options, JSON_PRETTY_PRINT);
     }
 }

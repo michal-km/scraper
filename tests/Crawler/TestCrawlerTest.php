@@ -19,12 +19,12 @@ use App\Crawler\TestCrawler;
 final class TestCrawlerTest extends TestCase
 {
     /**
-     * All crawlers should be descendants of \Symfony\Component\DomCrawler\Crawler.
+     * All crawlers have dom() returning an instance of \Symfony\Component\DomCrawler\Crawler or a null value.
      */
     public function testConstructor() : void
     {
         $crawler = new TestCrawler();
-        $this->assertInstanceOf("\Symfony\Component\DomCrawler\Crawler", $crawler);
+        $this->assertSame(null, $crawler->dom());
     }
 
     /**
@@ -34,7 +34,8 @@ final class TestCrawlerTest extends TestCase
     {
         $crawler = new TestCrawler();
         $crawler->load();
-        $text = $crawler->filter(".package")->text();
+        $this->assertInstanceOf("\Symfony\Component\DomCrawler\Crawler", $crawler->dom());
+        $text = $crawler->dom()->filter(".package")->text();
         $this->assertSame((strlen($text) > 0), true);
     }
 }

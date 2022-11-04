@@ -11,23 +11,24 @@
 namespace App\Crawler;
 
 use Symfony\Component\HttpClient\HttpClient;
-use Symfony\Component\DomCrawler\Crawler;
+use Symfony\Component\DomCrawler\Crawler as Dom;
 use Goutte\Client;
 use Campo\UserAgent;
+use App\Crawler\CrawlerInterface;
 
 /**
  * This crawler should be used for scraping from the live website.
  */
-class RemoteCrawler extends Crawler
+class RemoteCrawler implements CrawlerInterface
 {
     private HttpClientInterface $httpClient;
+    private Client $client;
+    private ?Dom $dom;
 
     /**
      * In real scraping, $httpClient should closely imitate true web browser with headers information, cookies jar and js support.
      * Even better, a proxy service should provide different IPs for every request.
      * Here is a very basic simulation performed: a random User Agent is generated for every request.
-     *
-     * @param HttpClient $httpClient Injected Symfony HttpClient component.
      */
     public function __construct()
     {
@@ -37,25 +38,33 @@ class RemoteCrawler extends Crawler
                 'User-Agent' =>  UserAgent::random(),
                 'Accept' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8',
                 'Referer' => 'http://google.com',
-            ]
+            ],
         ];
         $this->client = new Client(HttpClient::create($options));
-        parent::__construct();
+        $this->dom = null;
     }
 
     /**
      * Clears existing DOM data and loads a new document.
      *
-     * @param ?string $url An URL to load content from. If null, a dummy document is created.
+     * @param ?string $uri An URL to load content from. If null, a dummy document is created.
      */
-    public function load(?string $url = null) : void
+    public function load(?string $uri = null) : void
     {
-        $this->clear();
-        if (null !== $url) {
-            $html = $this->client->request('GET', $url);
+        $this->dom = null;
+        if (null !== $uri) {
+            $this->dom = $this->client->request('GET', $uri);
         } else {
             $html = "<html><head><title>Empty document</title></head><body><div class=\"info\">Empty document</div></body></html>";
+            $this->dom = new Dom($html);
         }
-        $this->add($html);
+    }
+
+    /**
+     * @return ?Crawler An initialized DOM crawler or null if the document was not loaded.
+     */
+    public function dom() : ?Dom
+    {
+        return $this->dom;
     }
 }

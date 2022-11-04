@@ -49,7 +49,7 @@ final class AbstractSnippetTest extends TestCase
      */
     public function testParse() : void
     {
-        $this->snippet->scrape($this->crawler->filter('.package'));
+        $this->snippet->scrape($this->crawler->dom()->filter('.package'));
         $value = $this->snippet->value();
         $this->assertNotEmpty($value);
         $this->assertIsString($value);

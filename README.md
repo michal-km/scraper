@@ -11,6 +11,7 @@ Scraper is a simple Symfony console application for extracting data from website
 ```
 git clone https://github.com/michal-km/scraper.git
 cd scraper
+chmod +x scraper
 composer install
 ```
 
@@ -18,11 +19,11 @@ composer install
 
 ### Scrape a website and display JSON result
 ```
-scraper get url https://wltest.dns-systems.net/
+./scraper get https://wltest.dns-systems.net/
 ```
 or, for the default website (the same as above):
 ```
-scraper get
+./scraper get
 ```
 
 ### Display usage information

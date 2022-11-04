@@ -36,11 +36,11 @@ final class RemoteCrawlerTest extends TestCase
     }
 
     /**
-     * All crawlers should be descendants of \Symfony\Component\DomCrawler\Crawler.
+     * All crawlers have dom() returning an instance of \Symfony\Component\DomCrawler\Crawler or a null value.
      */
     public function testConstructor() : void
     {
-        $this->assertInstanceOf("\Symfony\Component\DomCrawler\Crawler", $this->crawler);
+        $this->assertSame(null, $this->crawler->dom());
     }
 
     /**
@@ -50,7 +50,8 @@ final class RemoteCrawlerTest extends TestCase
     public function testLoad() : void
     {
         $this->crawler->load(null);
-        $text = $this->crawler->filter(".info")->text();
+        $this->assertInstanceOf("\Symfony\Component\DomCrawler\Crawler", $this->crawler->dom());
+        $text = $this->crawler->dom()->filter(".info")->text();
         $this->assertSame("Empty document", $text);
     }
 }
