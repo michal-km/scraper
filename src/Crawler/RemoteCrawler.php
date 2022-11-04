@@ -13,6 +13,7 @@ namespace App\Crawler;
 use Symfony\Component\HttpClient\HttpClient;
 use Symfony\Component\DomCrawler\Crawler;
 use Goutte\Client;
+use Campo\UserAgent;
 
 /**
  * This crawler should be used for scraping from the live website.
@@ -22,15 +23,23 @@ class RemoteCrawler extends Crawler
     private HttpClientInterface $httpClient;
 
     /**
-     * In real life case, $httpClient should closely imitate true web browser with headers information.
+     * In real scraping, $httpClient should closely imitate true web browser with headers information, cookies jar and js support.
      * Even better, a proxy service should provide different IPs for every request.
-     * Here, a very basic simulation is performed.
+     * Here is a very basic simulation performed: a random User Agent is generated for every request.
      *
      * @param HttpClient $httpClient Injected Symfony HttpClient component.
      */
     public function __construct()
     {
-        $this->client = new Client(HttpClient::create(['timeout' => 60]));
+        $options = [
+            'timeout' => 60,
+            'headers' => [
+                'User-Agent' =>  UserAgent::random(),
+                'Accept' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8',
+                'Referer' => 'http://google.com',
+            ]
+        ];
+        $this->client = new Client(HttpClient::create($options));
         parent::__construct();
     }
 
