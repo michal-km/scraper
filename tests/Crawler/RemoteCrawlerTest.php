@@ -11,6 +11,9 @@
 namespace Tests\Crawler;
 
 use PHPUnit\Framework\TestCase;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
+use Symfony\Component\Config\FileLocator;
 use App\Crawler\RemoteCrawler;
 
 /**
@@ -18,13 +21,26 @@ use App\Crawler\RemoteCrawler;
  */
 final class RemoteCrawlerTest extends TestCase
 {
+    private RemoteCrawler $crawler;
+
+    /**
+     * {@inheritDoc}
+     */
+    protected function setUp(): void
+    {
+        $container = new ContainerBuilder();
+        $loader = new YamlFileLoader($container, new FileLocator());
+        $loader->load(__DIR__.'/../../config/services.yml');
+        $container->compile();
+        $this->crawler = $container->get(\App\Crawler\RemoteCrawler::class);
+    }
+
     /**
      * All crawlers should be descendants of \Symfony\Component\DomCrawler\Crawler.
      */
     public function testConstructor() : void
     {
-        $crawler = new RemoteCrawler();
-        $this->assertInstanceOf("\Symfony\Component\DomCrawler\Crawler", $crawler);
+        $this->assertInstanceOf("\Symfony\Component\DomCrawler\Crawler", $this->crawler);
     }
 
     /**
@@ -33,9 +49,8 @@ final class RemoteCrawlerTest extends TestCase
      */
     public function testLoad() : void
     {
-        $crawler = new RemoteCrawler();
-        $crawler->load(null);
-        $text = $crawler->filter(".info")->text();
+        $this->crawler->load(null);
+        $text = $this->crawler->filter(".info")->text();
         $this->assertSame("Empty document", $text);
     }
 }

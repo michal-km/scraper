@@ -22,9 +22,12 @@ class TestCrawler extends Crawler
     /**
      * @param ?string $uri A location of a HTML file to load. If not given, a default test file is used.
      */
-    public function load(?string $uri = __DIR__."/../../tests/Resources/page.html") : void
+    public function load(?string $uri = null) : void
     {
         $this->clear();
+        if (null === $uri) {
+            $uri = __DIR__."/../../tests/Resources/page.html";
+        }
         $html = file_get_contents($uri);
         $this->add($html);
     }

@@ -10,8 +10,8 @@
 
 namespace App\Crawler;
 
-use Symfony\Component\DomCrawler\Crawler;
 use Symfony\Component\HttpClient\HttpClient;
+use Symfony\Component\DomCrawler\Crawler;
 use Goutte\Client;
 
 /**
@@ -19,20 +19,31 @@ use Goutte\Client;
  */
 class RemoteCrawler extends Crawler
 {
+    private HttpClientInterface $httpClient;
+
+    /**
+     * In real life case, $httpClient should closely imitate true web browser with headers information.
+     * Even better, a proxy service should provide different IPs for every request.
+     * Here, a very basic simulation is performed.
+     *
+     * @param HttpClient $httpClient Injected Symfony HttpClient component.
+     */
+    public function __construct()
+    {
+        $this->client = new Client(HttpClient::create(['timeout' => 60]));
+        parent::__construct();
+    }
+
     /**
      * Clears existing DOM data and loads a new document.
      *
-     * In real life case, $httpClient should closely imitate true web browser with headers information.
-     * If it is not provided (nulled), a dummy document is generated.
-     *
-     * @param HttpClient $httpClient A HttpClient implementing PSR-18 interface.
+     * @param ?string $url An URL to load content from. If null, a dummy document is created.
      */
-    public function load(?HttpClient $httpClient) : void
+    public function load(?string $url = null) : void
     {
         $this->clear();
-        if (null !== $httpClient) {
-            $client = new Client($this->httpClient);
-            $html = $client->request('GET', 'https://www.symfony.com/blog/');
+        if (null !== $url) {
+            $html = $this->client->request('GET', $url);
         } else {
             $html = "<html><head><title>Empty document</title></head><body><div class=\"info\">Empty document</div></body></html>";
         }

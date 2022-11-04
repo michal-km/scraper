@@ -21,7 +21,7 @@ use App\Scraper\Scraper;
 /**
  * Scrapper command
  */
-#[AsCommand(name: 'scrape')]
+#[AsCommand(name: 'get')]
 class ScrapeCommand extends Command
 {
     private Scraper $scraper;
@@ -39,8 +39,9 @@ class ScrapeCommand extends Command
      */
     protected function configure() : void
     {
-        $this->setDescription('Scrapes a site.')
-            ->setHelp('Help message');
+        $this->setDescription('Scrape a website and produce a JSON array.')
+            ->setHelp('Help message')
+            ->addArgument('url', InputArgument::OPTIONAL, 'Url of the website to scrape from.');
     }
 
     /**
@@ -49,7 +50,8 @@ class ScrapeCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         try {
-            $options = $this->scraper->scrape();
+            $url = $input->getArgument('url');
+            $options = $this->scraper->scrape($url);
             $json = json_encode($options, JSON_PRETTY_PRINT);
             $output->writeln(sprintf("%s", $json));
 

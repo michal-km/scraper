@@ -36,7 +36,7 @@ class ScrapeCommandTest extends TestCase
         $loader->load(__DIR__.'/../../config/services.yml');
         $container->compile();
         $application = $container->get(\App\Application::class);
-        $command = $application->find('scrape');
+        $command = $application->find('get');
         $this->commandTester = new CommandTester($command);
     }
 

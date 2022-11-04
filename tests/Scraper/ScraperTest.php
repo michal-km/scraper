@@ -47,7 +47,7 @@ final class ScraperTest extends TestCase
      */
     public function testScrape() : void
     {
-        $data = $this->scraper->scrape();
+        $data = $this->scraper->scrape(null);
         $this->assertIsArray($data);
         $this->assertNotEmpty($data);
         foreach ($data as $d) {

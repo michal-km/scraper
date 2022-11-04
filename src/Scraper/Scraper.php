@@ -37,12 +37,14 @@ class Scraper
     /**
      * The main scraping loop
      *
+     * @param string $url URL of the website to scrape from. If null, the crawler should provide a default one or a dummy document.
+     * 
      * @return array All the options (packages) found on the page, sorted by yearly price (DESC).
      */
-    public function scrape() : array
+    public function scrape(?string $url) : array
     {
         $this->options = [];
-        $this->crawler->load();
+        $this->crawler->load($url);
         $this->crawler->filter('.package')->each(function ($node) {
             $this->optionScraper->scrape($node);
             $this->options[$this->optionScraper->getProperty("price")] = $this->optionScraper->getProperties();
