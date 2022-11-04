@@ -16,6 +16,8 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Attribute\AsCommand;
+use Symfony\Component\HttpKernel\Log\Logger;
+use Psr\Log\LoggerInterface;
 use App\Scraper\Scraper;
 
 /**
@@ -25,12 +27,14 @@ use App\Scraper\Scraper;
 class ScrapeCommand extends Command
 {
     private Scraper $scraper;
+    private LoggerInterface $logger;
     /**
      * {@inheritdoc}
      */
-    public function __construct(Scraper $scraper)
+    public function __construct(Scraper $scraper, LoggerInterface $logger)
     {
         $this->scraper = $scraper;
+        $this->logger = $logger;
         parent::__construct();
     }
 
@@ -49,19 +53,33 @@ class ScrapeCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        $returnCode = Command::SUCCESS;
         try {
-            $url = $input->getArgument('url');
-            $options = $this->scraper->scrape($url);
-            $json = json_encode($options, JSON_PRETTY_PRINT);
+            $this->logger->info('Scraping session started.');
+            $json = $this->getJson($input->getArgument('url'));
             $output->writeln(sprintf("%s", $json));
-
-            return Command::SUCCESS;
         } catch (\Exception $e) {
-            // send email
-            // log error
-            print $e->getMessage();
-
-            return Command::FAILURE;
+            /**
+             * In production scraper, an email message should be sent whennever an scraping issue appears.
+             * For the purpose of this exercise, errors are logged.
+             */
+            $this->logger->error($e->getMessage());
+            $returnCode = Command::FAILURE;
+        } finally {
+            $this->logger->info('Scraping session ended.');
         }
+        return $returnCode;
+    }
+
+    /**
+     * @param ?string $url An URL of website to scrap from.
+     */
+    private function getJson(?string $url)
+    {
+        $options = $this->scraper->scrape($url);
+        if (empty($options)) {
+            $this->logger->warning('No data scraped.');
+        }
+        return json_encode($options, JSON_PRETTY_PRINT);
     }
 }

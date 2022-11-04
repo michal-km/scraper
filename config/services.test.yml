@@ -28,3 +28,8 @@ services:
       $crawler: '@App\Crawler\TestCrawler'
       $optionScraper: '@App\Scraper\OptionScraper'
   
+  Psr\Log\LoggerInterface:
+    class: Symfony\Component\HttpKernel\Log\Logger
+    arguments:
+      $output: 'scraper.log'
+      $minLevel: 'info'
