@@ -30,7 +30,7 @@ final class OptionScraperTest extends TestCase
     {
         $container = new ContainerBuilder();
         $loader = new YamlFileLoader($container, new FileLocator());
-        $loader->load(__DIR__.'/../../config/services.yml');
+        $loader->load(__DIR__.'/../../config/services.test.yml');
         $container->compile();
         $this->optionScraper = $container->get(\App\Scraper\OptionScraper::class);
     }

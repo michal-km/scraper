@@ -25,5 +25,6 @@ services:
 
   App\Scraper\Scraper:
     arguments:
-      $crawler: '@App\Crawler\RemoteCrawler'
+      $crawler: '@App\Crawler\TestCrawler'
       $optionScraper: '@App\Scraper\OptionScraper'
+  
