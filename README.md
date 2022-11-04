@@ -7,7 +7,7 @@ Scraper is a simple Symfony console application for extracting data from website
 - PHP version 8.0 or higher,
 - an Internet connection (obviously).
 
-## Intallation
+## Installation
 
 ```
 git clone https://github.com/michal-km/scraper.git
@@ -26,6 +26,7 @@ or, for the default website (the same as above):
 ```
 ./scraper get
 ```
+Should any issues arise, please look into `scraper.log` file for more information.
 
 ### Display usage information
 ```
