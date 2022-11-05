@@ -5,6 +5,7 @@ Scraper is a simple Symfony console application for extracting data from website
 ## Requirements
 
 - PHP version 8.0 or higher,
+- Composer (https://getcomposer.org/)
 - an Internet connection (obviously).
 
 ## Installation
