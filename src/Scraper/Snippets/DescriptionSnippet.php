@@ -24,6 +24,7 @@ class DescriptionSnippet extends AbstractSnippet
      */
     protected function parse($node): void
     {
-        $this->value = $node->filter('.package-description')->text();
+        $this->value = $node->filter('.package-name')->text();
+        $this->value .= " " . $node->filter('.package-description')->text();
     }
 }
