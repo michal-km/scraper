@@ -34,6 +34,6 @@ class PriceSnippet extends AbstractSnippet
             $value *= 12;
         }
 
-        $this->value = $value;
+        $this->value = ($value/100);
     }
 }
