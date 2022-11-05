@@ -88,6 +88,8 @@ class ScrapeCommand extends Command
         $options = $this->scraper->scrape($url);
         if (empty($options)) {
             $this->logger->warning('No data scraped.');
+        } else {
+            $options = array_values($options);
         }
 
         return json_encode($options, JSON_PRETTY_PRINT);
