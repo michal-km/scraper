@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the recruitment exercise.
  *
@@ -22,8 +24,8 @@ class Scraper
     private OptionScraper $optionScraper;
 
     /**
-     * For the purpose of testing, a TestCrawler is injected (@see config/services.yml) which works on pre-saved html file.
-     * In real life case, abusing scraped website during test sessions could end with a ban / blocked IP.
+     * For the purpose of testing, a TestCrawler is injected (@see config/services.yml) which works on pre-saved
+     * html file. In real life case, abusing scraped website during test sessions could end with a blocked IP.
      *
      * @param CrawlerInterface $crawler       Auto-injected crawler object.
      * @param OptionScrapper   $optionScraper Auto-injected OptionScraper object.
@@ -37,11 +39,11 @@ class Scraper
     /**
      * The main scraping loop
      *
-     * @param string $url URL of the website to scrape from. If null, the crawler should provide a default one or a dummy document.
+     * @param string $url URL of the website to scrape from. If null, the crawler provide a default or a dummy document.
      *
      * @return array All the options (packages) found on the page, sorted by yearly price (DESC).
      */
-    public function scrape(?string $url) : array
+    public function scrape(?string $url): array
     {
         $this->options = [];
         $this->crawler->load($url);

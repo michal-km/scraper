@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the recruitment exercise.
  *
@@ -20,7 +22,7 @@ class DiscountSnippet extends AbstractSnippet
     /**
      * {@inheritDoc}
      */
-    protected function parse($node) : void
+    protected function parse($node): void
     {
         $this->value = $node->filter('p[style="color: red"]')->text();
     }

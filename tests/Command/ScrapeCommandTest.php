@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /*
  * This file is part of the recruitment exercise.
@@ -29,11 +31,11 @@ class ScrapeCommandTest extends TestCase
     /**
      * {@inheritdoc}
      */
-    protected function setUp() : void
+    protected function setUp(): void
     {
         $container = new ContainerBuilder();
         $loader = new YamlFileLoader($container, new FileLocator());
-        $loader->load(__DIR__.'/../../config/services.test.yml');
+        $loader->load(__DIR__ . '/../../config/services.test.yml');
         $container->compile();
         $application = $container->get(\App\Application::class);
         $command = $application->find('get');
@@ -62,7 +64,7 @@ class ScrapeCommandTest extends TestCase
     /**
      * {@inheritdoc}
      */
-    public function testJsonContent() : void
+    public function testJsonContent(): void
     {
         $this->commandTester->execute([]);
         $json = $this->commandTester->getDisplay();
@@ -79,7 +81,7 @@ class ScrapeCommandTest extends TestCase
     /**
      * {@inheritdoc}
      */
-    public function testSort() : void
+    public function testSort(): void
     {
         $this->commandTester->execute([]);
         $json = $this->commandTester->getDisplay();

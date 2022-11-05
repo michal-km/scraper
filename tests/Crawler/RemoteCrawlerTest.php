@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /*
  * This file is part of the recruitment exercise.
@@ -30,7 +32,7 @@ final class RemoteCrawlerTest extends TestCase
     {
         $container = new ContainerBuilder();
         $loader = new YamlFileLoader($container, new FileLocator());
-        $loader->load(__DIR__.'/../../config/services.test.yml');
+        $loader->load(__DIR__ . '/../../config/services.test.yml');
         $container->compile();
         $this->crawler = $container->get(\App\Crawler\RemoteCrawler::class);
     }
@@ -38,7 +40,7 @@ final class RemoteCrawlerTest extends TestCase
     /**
      * All crawlers have dom() returning an instance of \Symfony\Component\DomCrawler\Crawler or a null value.
      */
-    public function testConstructor() : void
+    public function testConstructor(): void
     {
         $this->assertSame(null, $this->crawler->dom());
     }
@@ -47,7 +49,7 @@ final class RemoteCrawlerTest extends TestCase
      * RemoteCrawler fetches data from a real website and it is not desirable to do it in every testing session.
      * Therefore. load function test is simplified.
      */
-    public function testLoad() : void
+    public function testLoad(): void
     {
         $this->crawler->load(null);
         $this->assertInstanceOf("\Symfony\Component\DomCrawler\Crawler", $this->crawler->dom());

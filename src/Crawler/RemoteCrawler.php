@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the recruitment exercise.
  *
@@ -26,8 +28,8 @@ class RemoteCrawler implements CrawlerInterface
     private ?Dom $dom;
 
     /**
-     * In real scraping, $httpClient should closely imitate true web browser with headers information, cookies jar and js support.
-     * Even better, a proxy service should provide different IPs for every request.
+     * In real scraping, $httpClient should closely imitate true web browser with headers information, cookies jar and
+     * js support. Even better, a proxy service should provide different IPs for every request.
      * Here is a very basic simulation performed: a random User Agent is generated for every request.
      */
     public function __construct()
@@ -49,13 +51,13 @@ class RemoteCrawler implements CrawlerInterface
      *
      * @param ?string $uri An URL to load content from. If null, a dummy document is created.
      */
-    public function load(?string $uri = null) : void
+    public function load(?string $uri = null): void
     {
         $this->dom = null;
         if (null !== $uri) {
             $this->dom = $this->client->request('GET', $uri);
         } else {
-            $html = "<html><head><title>Empty document</title></head><body><div class=\"info\">Empty document</div></body></html>";
+            $html = "<html><head></head><body><div class=\"info\">Empty document</div></body></html>";
             $this->dom = new Dom($html);
         }
     }
@@ -63,7 +65,7 @@ class RemoteCrawler implements CrawlerInterface
     /**
      * @return ?Crawler An initialized DOM crawler or null if the document was not loaded.
      */
-    public function dom() : ?Dom
+    public function dom(): ?Dom
     {
         return $this->dom;
     }

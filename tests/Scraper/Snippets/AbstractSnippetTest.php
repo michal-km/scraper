@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /*
  * This file is part of the recruitment exercise.
@@ -37,7 +39,7 @@ final class AbstractSnippetTest extends TestCase
     /**
      * {@inheritDoc}
      */
-    protected function setUp() : void
+    protected function setUp(): void
     {
         $this->crawler = new TestCrawler();
         $this->crawler->load();
@@ -47,7 +49,7 @@ final class AbstractSnippetTest extends TestCase
     /**
      * {@inheritDoc}
      */
-    public function testParse() : void
+    public function testParse(): void
     {
         $this->snippet->scrape($this->crawler->dom()->filter('.package'));
         $value = $this->snippet->value();

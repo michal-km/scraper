@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the recruitment exercise.
  *
@@ -12,12 +14,18 @@ namespace App\Crawler;
 
 use Symfony\Component\DomCrawler\Crawler;
 
+/**
+ * Common interface for test and remote (production) crawlers.
+ */
 interface CrawlerInterface
 {
-    public function load(?string $url = null) : void;
+    /**
+     * @param ?string $uri A location of a source document to load. If not given, a default test file is used.
+     */
+    public function load(?string $uri = null): void;
 
     /**
      * @return ?Crawler An initialized DOM crawler or null if the document was not loaded.
      */
-    public function dom() : ?Crawler;
+    public function dom(): ?Crawler;
 }

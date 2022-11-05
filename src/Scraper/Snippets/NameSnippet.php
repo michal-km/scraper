@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the recruitment exercise.
  *
@@ -21,7 +23,7 @@ class NameSnippet extends AbstractSnippet
     /**
      * {@inheritDoc}
      */
-    protected function parse($node) : void
+    protected function parse($node): void
     {
         $this->value = $node->filter('h3')->text();
     }

@@ -22,6 +22,9 @@ class TestCrawler implements CrawlerInterface
 {
     private ?Dom $dom;
 
+    /**
+     * {@inheritDoc}
+     */
     public function __construct()
     {
         $this->dom = null;
@@ -30,11 +33,11 @@ class TestCrawler implements CrawlerInterface
     /**
      * @param ?string $uri A location of a HTML file to load. If not given, a default test file is used.
      */
-    public function load(?string $uri = null) : void
+    public function load(?string $uri = null): void
     {
         $this->crawler = null;
         if (null === $uri) {
-            $uri = __DIR__."/../../tests/Resources/page.html";
+            $uri = __DIR__ . "/../../tests/Resources/page.html";
         }
         $html = file_get_contents($uri);
         $this->dom = new Dom($html);
@@ -43,7 +46,7 @@ class TestCrawler implements CrawlerInterface
     /**
      * {@inheritDoc}
      */
-    public function dom() : ?Dom
+    public function dom(): ?Dom
     {
         return $this->dom;
     }

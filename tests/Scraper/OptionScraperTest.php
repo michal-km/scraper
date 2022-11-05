@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /*
  * This file is part of the recruitment exercise.
@@ -26,11 +28,11 @@ final class OptionScraperTest extends TestCase
     /**
      * {@inheritdoc}
      */
-    protected function setUp() : void
+    protected function setUp(): void
     {
         $container = new ContainerBuilder();
         $loader = new YamlFileLoader($container, new FileLocator());
-        $loader->load(__DIR__.'/../../config/services.test.yml');
+        $loader->load(__DIR__ . '/../../config/services.test.yml');
         $container->compile();
         $this->optionScraper = $container->get(\App\Scraper\OptionScraper::class);
     }
@@ -40,7 +42,7 @@ final class OptionScraperTest extends TestCase
      * * getProperties() : array
      * * getProperty(string $name) : mixed
      */
-    public function testProperties() : void
+    public function testProperties(): void
     {
         $properties = $this->optionScraper->getProperties();
         $this->assertIsArray($properties);

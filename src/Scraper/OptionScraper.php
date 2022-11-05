@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the recruitment exercise.
  *
@@ -38,7 +40,7 @@ class OptionScraper
      *
      * @param mixed $node An instance of Symfony\Component\DomCrawler\Crawler or DOMElement.
      */
-    public function scrape($node) : void
+    public function scrape($node): void
     {
         foreach ($this->snippets as $snippet) {
             $snippet->scrape($node);
@@ -50,9 +52,10 @@ class OptionScraper
      *
      * @param string $name A snippet's name.
      *
-     * @return mixed If found, a scraped value is returned. If the scrape process failed or if the snippet could not be found, the method returns null.
+     * @return mixed If found, a scraped value is returned.
+     * If the scrape process failed or if the snippet could not be found, the method returns null.
      */
-    public function getProperty(string $name) : mixed
+    public function getProperty(string $name): mixed
     {
         $value = null;
         foreach ($this->snippets as $snippet) {
@@ -69,7 +72,7 @@ class OptionScraper
      *
      * @return array All scraped values in form of an associative array with snippet names as the keys.
      */
-    public function getProperties() : array
+    public function getProperties(): array
     {
         $properties = [];
         foreach ($this->snippets as $snippet) {

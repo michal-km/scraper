@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /*
  * This file is part of the recruitment exercise.
@@ -21,16 +23,16 @@ final class TestCrawlerTest extends TestCase
     /**
      * All crawlers have dom() returning an instance of \Symfony\Component\DomCrawler\Crawler or a null value.
      */
-    public function testConstructor() : void
+    public function testConstructor(): void
     {
         $crawler = new TestCrawler();
         $this->assertSame(null, $crawler->dom());
     }
 
     /**
-     * Load function must result with a DOM ready to parse. Test crawler uses presaved HTML file to avoid abusing the real server.
+     * Load function must generate a DOM object. Test crawler uses presaved HTML file to avoid abusing the real server.
      */
-    public function testLoad() : void
+    public function testLoad(): void
     {
         $crawler = new TestCrawler();
         $crawler->load();

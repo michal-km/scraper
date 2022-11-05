@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the recruitment exercise.
  *
@@ -41,7 +43,7 @@ class ScrapeCommand extends Command
     /**
      * {@inheritdoc}
      */
-    protected function configure() : void
+    protected function configure(): void
     {
         $this->setDescription('Scrape a website and produce a JSON array.')
             ->setHelp('Help message')
@@ -77,7 +79,7 @@ class ScrapeCommand extends Command
      *
      * @return string JSON with the scraping results.
      */
-    private function getJson(?string $url) : string
+    private function getJson(?string $url): string
     {
         if (empty($url)) {
             $url = "https://wltest.dns-systems.net/";

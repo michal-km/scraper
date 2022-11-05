@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the recruitment exercise.
  *
@@ -33,7 +35,7 @@ abstract class AbstractSnippet
      *
      * @param mixed $node An instance of Symfony\Component\DomCrawler\Crawler or DOMElement.
      */
-    public function scrape(mixed $node) : void
+    public function scrape(mixed $node): void
     {
         $this->value = null;
         try {
@@ -48,7 +50,7 @@ abstract class AbstractSnippet
     /**
      * @return mixed A scrapped value.
      */
-    public function value() : mixed
+    public function value(): mixed
     {
         return $this->value;
     }
@@ -60,5 +62,5 @@ abstract class AbstractSnippet
      *
      * @param mixed $node An instance of Symfony\Component\DomCrawler\Crawler or DOMElement.
      */
-    abstract protected function parse(mixed $node) : void;
+    abstract protected function parse(mixed $node): void;
 }
